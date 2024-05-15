@@ -11,7 +11,7 @@ import { postCreateValidation } from './validations/post.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 import { postCreateComments } from './validations/comments.js';
 
-
+console.log(123)
 
 
 mongoose.connect('mongodb+srv://Admin:qwerty123@cluster0.lasasmm.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0')
