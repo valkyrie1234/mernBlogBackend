@@ -191,17 +191,11 @@ export const updateComment = async (req, res) => {
 
 export const getSearchedPosts = async (req, res) => {
     try {
-
         const titleSearch = req.params.title;
-
-        console.log('111')
-
         const searchedPosts = await PostModel.find({
             title: {"$regex":`${titleSearch}` , "$options": "i" }
         }).populate('user').exec()
-
         res.json(searchedPosts)
-
     } catch (error) {
         console.log(error)
     }

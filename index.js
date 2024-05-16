@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import cors from 'cors';
+import fs from 'fs';
 
 
 import { PostController, UserController } from './controllers/index.js';
@@ -11,7 +12,6 @@ import { postCreateValidation } from './validations/post.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 import { postCreateComments } from './validations/comments.js';
 
-console.log(123)
 
 
 mongoose.connect('mongodb+srv://Admin:qwerty123@cluster0.lasasmm.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0')
@@ -23,7 +23,10 @@ const app = express();
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
-        cb(null, 'uploads')
+        if (!fs.existsSync('uploads')) {
+            fs.mkdirSync('uploads');
+        }
+        cb(null, 'uploads');
     },
     filename: (_, file, cb) => {
         cb(null, file.originalname);
