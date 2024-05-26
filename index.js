@@ -62,6 +62,9 @@ app.patch('/comment/post/:id', checkAuth, postCreateComments, PostController.upd
 app.patch('/profile/user/:id', checkAuth, registerValidation, UserController.updateUserInfo)
 app.get('/post/search/:title', PostController.getSearchedPosts) // get Searched posts 
 
+
+app.get('/post/postsBytags/:tag', PostController.getAllPostsByTag)
+
 app.listen(4444, (err) => {
     if (err) {
         return console.log(err)

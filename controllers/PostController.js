@@ -28,8 +28,6 @@ export const getLastTags = async (req, res) => {
     try {
         const posts = await PostModel.find().limit(5).exec();
 
-
-
         const tags = posts
             .map((obj) => obj.tags)
             .flat(Infinity)
@@ -47,6 +45,26 @@ export const getLastTags = async (req, res) => {
         })
     }
 }
+
+
+
+export const getAllPostsByTag = async (req,res) => {
+    try {
+        const tag = req.params.tag;
+        const postsByTags = await PostModel.find({
+            'tags': {
+                $all: [tag]
+            }
+        }).populate('user').exec()
+
+        res.status(200).json(postsByTags)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 
 export const getAll = async (req, res) => {
     try {
@@ -83,7 +101,6 @@ export const getPopularPosts = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
-        console.log('111')
         const post = await PostModel.findOneAndUpdate({
             _id: postId,
         },
@@ -192,11 +209,19 @@ export const updateComment = async (req, res) => {
 export const getSearchedPosts = async (req, res) => {
     try {
         const titleSearch = req.params.title;
+
         const searchedPosts = await PostModel.find({
             title: {"$regex":`${titleSearch}` , "$options": "i" }
         }).populate('user').exec()
+
+        
+
         res.json(searchedPosts)
+
     } catch (error) {
         console.log(error)
+        res.status(500).json({
+            message:"Не удалось найти пост"
+        })
     }
 }
