@@ -7,7 +7,7 @@ export const create = async (req, res) => {
             title: req.body.title,
             text: req.body.text,
             imageUrl: req.body.imageUrl,
-            tags: req.body.tags,
+            tags: req.body.tags.map((tag) => tag.trim()),
             user: req.userId,
             postImage: req.body.postImage,
             postComment: [],
@@ -50,7 +50,7 @@ export const getLastTags = async (req, res) => {
 
 export const getAllPostsByTag = async (req,res) => {
     try {
-        const tag = req.params.tag;
+        const tag = req.params.tag.trim();
         const postsByTags = await PostModel.find({
             'tags': {
                 $all: [tag]
